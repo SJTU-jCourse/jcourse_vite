@@ -1,14 +1,13 @@
 import { Skeleton } from "antd";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Config from "@/lib/config";
 import { useReviewLocationInCourse } from "@/services/review";
 
 const ReviewLocationPage = () => {
-  const [searchParams] = useSearchParams();
-  const { id } = Object.fromEntries([...searchParams]);
+  const { id } = useParams();
   const navigate = useNavigate();
   const { data } = useReviewLocationInCourse(id as string);
 
@@ -21,6 +20,7 @@ const ReviewLocationPage = () => {
         { replace: true }
       );
   }, [data]);
+
   return (
     <>
       <Helmet>
