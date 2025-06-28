@@ -31,7 +31,7 @@ export const BasicLayout = () => {
             <Link to="/faq">常见问题</Link>
             <Link to="/report">反馈</Link>
           </Space>
-          <div>©2023 SJTU选课社区</div>
+          <div>©2025 SJTU选课社区</div>
         </Footer>
       </Layout>
     </CommonInfoContext.Provider>
