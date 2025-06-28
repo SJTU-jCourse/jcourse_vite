@@ -44,7 +44,9 @@ const PointPage = () => {
           </Skeleton>
 
           <Title level={5}>说明</Title>
-
+          <Paragraph>
+            自 2023 年 12 月 1 日起，选课社区积分暂时无法从发表点评、收获点赞等方式获取。
+          </Paragraph>
           <Paragraph>
             您可以前往
             <a
