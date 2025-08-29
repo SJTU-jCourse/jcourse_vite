@@ -20,7 +20,7 @@ import {
 
 const { Link, Text } = Typography;
 
-const LOGIN_FORM_HEIGHT = "184px";
+const LOGIN_FORM_HEIGHT = "200px";
 
 const LoginPage = () => {
   const { message } = App.useApp();

@@ -40,10 +40,19 @@ const EmailPasswordLoginForm = ({
 
       <Form.Item
         extra={
-          <Typography.Text type="secondary">
-            在<Link to="/preference">偏好设置</Link>
-            中设定密码后可使用密码登录
-          </Typography.Text>
+          <>
+            <div>
+              <Typography.Text type="secondary">
+                新用户请使用邮箱验证首次登录
+              </Typography.Text>
+            </div>
+            <div>
+              <Typography.Text type="secondary">
+                注册后在<Link to="/preference">偏好设置</Link>
+                中设定密码，可使用密码登录
+              </Typography.Text>
+            </div>
+          </>
         }
       >
         <Button
