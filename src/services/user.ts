@@ -1,4 +1,3 @@
-import { NavigateFunction } from "react-router-dom";
 import useSWR from "swr";
 
 import { LoginResponse, User, UserPoint } from "@/lib/models";
@@ -90,13 +89,11 @@ export function toAdmin() {
 export function postLogin(
   data: LoginResponse,
   next: string,
-  navigation: NavigateFunction
 ) {
-  console.log(data)
   localStorage.setItem("account", data.account);
   if (next) {
-    navigation(next);
+    window.location.href=next;
   } else {
-    navigation("/");
+    window.location.href="/";
   }
 }

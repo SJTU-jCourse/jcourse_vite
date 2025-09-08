@@ -3,13 +3,12 @@ import rehypeSanitize from "rehype-sanitize";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 
-const MDPreview = ({ src, ...props }: any) => {
+const MDPreview = ({ src }: any) => {
   return (
     <div className="markdown-preview">
       <ReactMarkdown
         rehypePlugins={[rehypeSanitize]}
         remarkPlugins={[remarkBreaks, remarkGfm]}
-        {...props}
       >
         {src}
       </ReactMarkdown>

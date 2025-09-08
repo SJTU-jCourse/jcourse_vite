@@ -1,6 +1,6 @@
 import { App, Grid, Modal, Tabs, Typography } from "antd";
 import { Helmet } from "react-helmet-async";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 import AboutCard from "@/components/about-card";
 import AccountLoginForm from "@/components/account-login-form";
@@ -24,7 +24,6 @@ const LOGIN_FORM_HEIGHT = "200px";
 
 const LoginPage = () => {
   const { message } = App.useApp();
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { next } = Object.fromEntries([...searchParams]);
   const [modal, contextHolder] = Modal.useModal();
@@ -33,7 +32,7 @@ const LoginPage = () => {
   const onEmailLoginFinish = (request: EmailLoginRequest) => {
     authEmailVerifyCode(request.account, request.code)
       .then((data) => {
-        postLogin(data, next, navigate);
+        postLogin(data, next);
       })
       .catch((error) => {
         message.error(error.response.data.detail);
@@ -43,7 +42,7 @@ const LoginPage = () => {
   const onAccountLoginFinish = (request: AccountLoginRequest) => {
     login(request.username, request.password)
       .then((data) => {
-        postLogin(data, next, navigate);
+        postLogin(data, next);
       })
       .catch((error) => {
         message.error(error.response.data.detail);
@@ -53,7 +52,7 @@ const LoginPage = () => {
   const onEmailPasswordLoginFinish = (request: EmailPasswordLoginRequest) => {
     emailPasswordLogin(request.account, request.password)
       .then((data) => {
-        postLogin(data, next, navigate);
+        postLogin(data, next);
       })
       .catch((error) => {
         message.error(error.response.data.detail);
