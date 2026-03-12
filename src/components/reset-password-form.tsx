@@ -107,8 +107,8 @@ const ResetPasswordForm = ({
         dependencies={["password"]}
         rules={[
           { required: true, message: "请重复选课社区密码" },
-          ({ getFieldValue }) => ({
-            validator(_, value) {
+          ({ getFieldValue }: { getFieldValue: Function }) => ({
+            validator(_: any, value: string) {
               if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }

@@ -24,7 +24,7 @@ const ReviewList = ({
         pagination
           ? {
               hideOnSinglePage: true,
-              onChange: (page, pageSize) => {
+              onChange: (page: number, pageSize: number) => {
                 onPageChange && onPageChange(page, pageSize);
               },
               total: count,

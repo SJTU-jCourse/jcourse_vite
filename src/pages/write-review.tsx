@@ -258,7 +258,7 @@ const WriteReviewPage = () => {
             rules={[
               {
                 required: true,
-                validator: (_, value: string) => {
+                validator: (_: any, value: string) => {
                   const trimed = value.trim();
                   return trimed != "" && trimed != ReviewTemplate
                     ? Promise.resolve()
@@ -288,7 +288,7 @@ const WriteReviewPage = () => {
               {
                 required: true,
                 message: "请选择推荐指数",
-                validator: (_, value) => {
+                validator: (_: any, value: number) => {
                   return value >= 1 && value <= 5
                     ? Promise.resolve()
                     : Promise.reject();

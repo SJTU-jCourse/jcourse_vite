@@ -134,7 +134,7 @@ const SyncPage = () => {
           <Col span={screens.sm ? 12 : 24}>
             <Input.TextArea
               placeholder="在此处粘贴教学信息服务网上的课表（列表显示）"
-              onChange={(e) => {
+              onChange={(e: any) => {
                 setSyncCourseItems(parseCourses(e.target.value));
               }}
               autoSize={{ minRows: 10, maxRows: 20 }}
