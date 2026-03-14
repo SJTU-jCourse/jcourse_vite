@@ -7,9 +7,8 @@ import {
   Typography,
   message,
 } from "antd";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 
-import ReportModal from "@/components/report-modal";
 import { CourseDetail, NotificationLevel, Teacher } from "@/lib/models";
 import { changeCourseNotificationLevel } from "@/services/course";
 
@@ -49,14 +48,17 @@ const CourseDetailCard = ({
   loading?: boolean;
   enroll_semester?: string | null;
 }>) => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   return (
     <Card
       title="课程信息"
       loading={loading}
       actions={
         course && [
-          <Button key="button" type="link" onClick={() => setIsModalOpen(true)}>
+          <Button
+            key="button"
+            type="link"
+            href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL}?subject=课程信息反馈：${course.code} ${course.name} ${course.main_teacher.name}`}
+          >
             信息有误？
           </Button>,
           <NotificationLevelSelect
@@ -107,13 +109,6 @@ const CourseDetailCard = ({
               </Descriptions.Item>
             )}
           </Descriptions>
-          <ReportModal
-            open={isModalOpen}
-            title={"课程信息反馈"}
-            defaultComment={`课程：${course.code} ${course.name} ${course.main_teacher.name}\n内部编号：${course.id}\n更改意见：`}
-            onOk={() => setIsModalOpen(false)}
-            onCancel={() => setIsModalOpen(false)}
-          />
         </>
       )}
     </Card>
