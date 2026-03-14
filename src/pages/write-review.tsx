@@ -192,14 +192,15 @@ const WriteReviewPage = () => {
             }
           >
             <Select
-              showSearch
+              showSearch={{
+                filterOption: false,
+                onSearch: debounceFetcher,
+              }}
               placeholder="搜索课程/课号/教师姓名/教师姓名拼音"
-              filterOption={false}
-              onSearch={debounceFetcher}
               notFoundContent={fetching ? <Spin size="small" /> : null}
               onChange={onCourseSelectChange}
               onPopupScroll={onPopupScroll}
-              dropdownRender={(menu) => (
+              popupRender={(menu) => (
                 <>
                   {menu}
                   {loadingMore ? (
@@ -209,20 +210,23 @@ const WriteReviewPage = () => {
                   ) : null}
                 </>
               )}
-            >
-              {courses.map((course) => (
-                <Select.Option key={course.id} value={course.id}>
-                  <div>
-                    {commonInfo.enrolled_courses.has(course.id) && (
-                      <Tag color={Config.TAG_COLOR_ENROLL}>学过</Tag>
-                    )}
-                    <span>
-                      {course.code} {course.name} {course.teacher}
-                    </span>
-                  </div>
-                </Select.Option>
-              ))}
-            </Select>
+              options={courses.map((course) => ({
+                value: course.id,
+                label: `${course.code} ${course.name} ${course.teacher}`,
+                course,
+              }))}
+              optionRender={(option) => (
+                <div>
+                  {commonInfo.enrolled_courses.has(
+                    option.data.course.id
+                  ) && <Tag color={Config.TAG_COLOR_ENROLL}>学过</Tag>}
+                  <span>
+                    {option.data.course.code} {option.data.course.name}{" "}
+                    {option.data.course.teacher}
+                  </span>
+                </div>
+              )}
+            />
           </Form.Item>
           <Form.Item
             name="semester"
@@ -236,22 +240,21 @@ const WriteReviewPage = () => {
               </Text>
             }
           >
-            <Select placeholder="选择学期">
-              {semestersInSelect?.map((semester) => (
-                <Select.Option
-                  key={semester.id}
-                  value={semester.id}
-                  label={semester.name}
-                >
-                  <div>
-                    {enrollSemester == semester.id && (
-                      <Tag color={Config.TAG_COLOR_ENROLL}>学过</Tag>
-                    )}
-                    <span>{semester.name}</span>
-                  </div>
-                </Select.Option>
-              ))}
-            </Select>
+            <Select
+              placeholder="选择学期"
+              options={semestersInSelect?.map((semester) => ({
+                value: semester.id,
+                label: semester.name,
+              }))}
+              optionRender={(option) => (
+                <div>
+                  {enrollSemester == option.value && (
+                    <Tag color={Config.TAG_COLOR_ENROLL}>学过</Tag>
+                  )}
+                  <span>{option.label}</span>
+                </div>
+              )}
+            />
           </Form.Item>
           <Form.Item
             name="comment"
