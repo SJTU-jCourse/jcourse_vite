@@ -9,7 +9,7 @@ import { useReviewRevisions } from "@/services/review";
 const ReviewRevisionView = ({ revision }: { revision?: ReviewRevision }) => {
   if (!revision) return <></>;
   return (
-    <Space direction="vertical" className="review-body">
+    <Space orientation="vertical" className="review-body">
       {revision.course && (
         <Space wrap>
           <Link to={"/course/" + revision.course.id}>
@@ -69,7 +69,7 @@ const ReviewRevisionViewModal = ({
       onCancel={onCancel}
       width={screens.md ? "80%" : 520}
     >
-      <Space direction="vertical">
+      <Space orientation="vertical">
         <Space>
           <Pagination
             simple

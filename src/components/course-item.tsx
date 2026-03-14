@@ -22,7 +22,7 @@ const CourseItem = ({
             key={course.id}
             extra={
               course.rating.count > 0 ? (
-                <Space size={0} direction="vertical" align="end">
+                <Space size={0} orientation="vertical" align="end">
                   <Text strong style={{ fontSize: 16 }}>
                     {course.rating.avg.toFixed(1)}
                   </Text>
@@ -33,7 +33,7 @@ const CourseItem = ({
               )
             }
           >
-            <Space direction="vertical">
+            <Space orientation="vertical">
               <Link to={"/course/" + course.id}>
                 {course.code + " "}
                 {course.name}（{course.teacher}）

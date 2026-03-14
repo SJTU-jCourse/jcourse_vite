@@ -32,7 +32,7 @@ const NotificationLevelSelect = ({ course }: { course: CourseDetail }) => {
       <Select
         defaultValue={course.notification_level || NotificationLevel.NORMAL}
         options={options}
-        bordered={false}
+        variant="borderless"
         onChange={onNotificationLevelChange}
       ></Select>
     </Space>

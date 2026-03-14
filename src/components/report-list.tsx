@@ -44,7 +44,7 @@ const ReportList = ({
           className="comment"
         >
           <p>{item.comment}</p>
-          {item.reply && <Alert message={item.reply} type="info" />}
+          {item.reply && <Alert title={item.reply} type="info" />}
         </List.Item>
       )}
     />

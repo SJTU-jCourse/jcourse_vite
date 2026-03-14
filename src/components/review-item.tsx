@@ -70,10 +70,10 @@ const ReviewItem = ({
                 }}
               ></ReviewRevisionViewModal>
             )}
-            <Space direction="vertical" className="review-body">
+            <Space orientation="vertical" className="review-body">
               {review.moderator_remark && (
                 <Alert
-                  message={review.moderator_remark}
+                  title={review.moderator_remark}
                   type="warning"
                   showIcon
                 />
