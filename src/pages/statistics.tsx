@@ -19,13 +19,13 @@ import { Helmet } from "react-helmet-async";
 
 const { useBreakpoint } = Grid;
 
-const IntervalAxisTick = ({ x, y, payload }: any) => {
+const IntervalAxisTick = ({ x, y, payload }: { x: number | string; y: number | string; payload: { value: number | string } }) => {
   console.log(x, y, payload);
-
+  const value = Number(payload.value);
   return (
-    <g transform={`translate(${x + 8},${y})`}>
+    <g transform={`translate(${Number(x) + 8},${y})`}>
       <text y={0} dy={12} textAnchor="end" fill="#666">
-        {payload.value < 5 ? `[${payload.value}, ${payload.value + 1})` : 5}
+        {value < 5 ? `[${value}, ${value + 1})` : 5}
       </text>
     </g>
   );

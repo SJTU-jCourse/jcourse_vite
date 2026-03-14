@@ -116,8 +116,10 @@ const LoginPage = () => {
   );
 };
 
-export default () => (
+const LoginPageWrapper = () => (
   <App>
     <LoginPage />
   </App>
 );
+
+export default LoginPageWrapper;

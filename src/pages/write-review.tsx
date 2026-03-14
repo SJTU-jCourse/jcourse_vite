@@ -118,6 +118,7 @@ const WriteReviewPage = () => {
         });
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const { run: debounceFetcher } = useDebounceFn(
@@ -160,8 +161,8 @@ const WriteReviewPage = () => {
     setEnrollSemester(0);
   };
 
-  const onPopupScroll = (e: { target?: any }) => {
-    const { target } = e;
+  const onPopupScroll = (e: React.UIEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
     if (target.scrollTop + target.offsetHeight >= target.scrollHeight) {
       loadMore();
     }
@@ -258,7 +259,7 @@ const WriteReviewPage = () => {
             rules={[
               {
                 required: true,
-                validator: (_: any, value: string) => {
+                validator: (_: unknown, value: string) => {
                   const trimed = value.trim();
                   return trimed != "" && trimed != ReviewTemplate
                     ? Promise.resolve()
@@ -288,7 +289,7 @@ const WriteReviewPage = () => {
               {
                 required: true,
                 message: "请选择推荐指数",
-                validator: (_: any, value: number) => {
+                validator: (_: unknown, value: number) => {
                   return value >= 1 && value <= 5
                     ? Promise.resolve()
                     : Promise.reject();

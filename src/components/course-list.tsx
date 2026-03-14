@@ -14,7 +14,7 @@ const CourseList = ({
   loading: boolean;
   count: number | undefined;
   courses: CourseListItem[] | undefined;
-  onPageChange?: Function;
+  onPageChange?: (page: number, pageSize: number) => void;
   pagination?: Pagination;
   showEnroll?: boolean;
 }) => {
@@ -27,7 +27,7 @@ const CourseList = ({
           ? {
               hideOnSinglePage: true,
               onChange: (page: number, pageSize: number) => {
-                onPageChange && onPageChange(page, pageSize);
+                onPageChange?.(page, pageSize);
               },
               total: count,
               current: pagination.page,

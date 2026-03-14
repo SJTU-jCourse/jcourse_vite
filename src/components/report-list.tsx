@@ -24,7 +24,7 @@ const ReportList = ({
           ? {
               hideOnSinglePage: true,
               onChange: (page: number, pageSize: number) => {
-                onPageChange && onPageChange(page, pageSize);
+                onPageChange?.(page, pageSize);
               },
               total: count,
               current: pagination.page,

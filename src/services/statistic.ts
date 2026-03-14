@@ -7,6 +7,7 @@ import { fetcher } from "@/services/request";
 export function useStatistic() {
   const { data, error } = useSWR<StatisticInfo>("/api/statistic/", fetcher);
 
+  let indexState = data;
   if (data) {
     const currentDay = dayjs().subtract(1, "day").format("YYYY-MM-DD");
 
@@ -21,12 +22,15 @@ export function useStatistic() {
       new_review_map.set(item.date, item.count);
     });
 
-    data.daily_new_users = new_user_map.get(currentDay) || 0;
-    data.daily_new_reviews = new_review_map.get(currentDay) || 0;
+    indexState = {
+      ...data,
+      daily_new_users: new_user_map.get(currentDay) || 0,
+      daily_new_reviews: new_review_map.get(currentDay) || 0,
+    };
   }
 
   return {
-    indexState: data,
+    indexState,
     loading: !error && !data,
     error: error,
   };

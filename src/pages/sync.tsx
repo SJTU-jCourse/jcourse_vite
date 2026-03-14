@@ -56,7 +56,7 @@ const CollapseItems: CollapseProps["items"] = [
 
 const parseCourses = (raw: string): SyncCourseItem[] => {
   const courseNameReg =
-    /\n(\S+)[◇●○★▲☆]\s+周数：\S+\s+校区:\S+\s+上课地点：\S+\s+教师 ：(\S+)\s+教学班：\((\S+)\)\-(\S+)-\S+\s+/g;
+    /\n(\S+)[◇●○★▲☆]\s+周数：\S+\s+校区:\S+\s+上课地点：\S+\s+教师 ：(\S+)\s+教学班：\((\S+)\)-(\S+)-\S+\s+/g;
   const matches = raw.matchAll(courseNameReg);
   const courses: SyncCourseItem[] = Array.from(matches, (item) => {
     return {
@@ -134,7 +134,7 @@ const SyncPage = () => {
           <Col span={screens.sm ? 12 : 24}>
             <Input.TextArea
               placeholder="在此处粘贴教学信息服务网上的课表（列表显示）"
-              onChange={(e: any) => {
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                 setSyncCourseItems(parseCourses(e.target.value));
               }}
               autoSize={{ minRows: 10, maxRows: 20 }}

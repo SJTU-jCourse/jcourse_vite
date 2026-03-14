@@ -8,9 +8,9 @@ const MDEditor = ({
   onChange,
 }: {
   value?: string;
-  onChange?: Function;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }) => {
-  const onTextChange = (e: any) => {
+  const onTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onChange?.(e);
   };
   const [preview, setPreview] = useState<boolean>(true);

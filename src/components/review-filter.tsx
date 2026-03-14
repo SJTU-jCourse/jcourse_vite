@@ -88,7 +88,7 @@ const ReviewFilter = ({
       </Col>
       <Button
         onClick={() => {
-          onClick && onClick({ order, semester, rating });
+          onClick?.({ order, semester, rating });
         }}
       >
         筛选

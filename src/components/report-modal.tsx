@@ -50,7 +50,7 @@ const ReportModal = ({
             {
               required: true,
               message: "请填写反馈内容",
-              validator: (_: any, value: string) => {
+              validator: (_: unknown, value: string) => {
                 const trimed = value.trim();
                 return trimed != "" && trimed != defaultComment
                   ? Promise.resolve()

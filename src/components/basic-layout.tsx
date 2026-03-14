@@ -15,7 +15,7 @@ export const BasicLayout = () => {
       const pathname = window.location.pathname;
       navigate("/login", { state: { next: pathname } });
     }
-  }, [error]);
+  }, [error, navigate]);
   return (
     <CommonInfoContext.Provider value={commonInfo}>
       <Layout className="basic-layout">

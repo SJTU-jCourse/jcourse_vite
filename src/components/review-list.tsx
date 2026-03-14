@@ -13,7 +13,7 @@ const ReviewList = ({
   loading: boolean;
   count: number | undefined;
   reviews: Review[] | undefined;
-  onPageChange?: Function;
+  onPageChange?: (page: number, pageSize: number) => void;
   pagination?: Pagination;
 }) => {
   return (
@@ -25,7 +25,7 @@ const ReviewList = ({
           ? {
               hideOnSinglePage: true,
               onChange: (page: number, pageSize: number) => {
-                onPageChange && onPageChange(page, pageSize);
+                onPageChange?.(page, pageSize);
               },
               total: count,
               current: pagination.page,

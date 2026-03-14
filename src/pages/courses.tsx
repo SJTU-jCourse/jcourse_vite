@@ -1,4 +1,5 @@
 import { Card, Col, Radio, Row } from "antd";
+import type { RadioChangeEvent } from "antd";
 import { Helmet } from "react-helmet-async";
 
 import CourseFilterCard from "@/components/course-filter-card";
@@ -41,7 +42,7 @@ const CourseListPage = () => {
     setSearchParams(new_params);
   };
 
-  const onOrderByClick = (e: any) => {
+  const onOrderByClick = (e: RadioChangeEvent) => {
     setSearchParams({
       ...params,
       page: "1",

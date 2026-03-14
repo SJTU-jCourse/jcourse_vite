@@ -14,7 +14,7 @@ const ResetPasswordForm = ({
 }) => {
   const [form] = Form.useForm();
   const [time, setTime] = useState<number>(0);
-  const timeRef = useRef<any>(null);
+  const timeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const inCounter = time != 0;
   const navigate = useNavigate();
 
@@ -43,7 +43,7 @@ const ResetPasswordForm = ({
     return () => {
       clearTimeout(timeRef.current);
     };
-  }, [time]);
+  }, [time, inCounter]);
 
   const onFinish = (request: ResetPasswordRequest) => {
     resetPassword(request.account, request.code, request.password)
@@ -107,8 +107,8 @@ const ResetPasswordForm = ({
         dependencies={["password"]}
         rules={[
           { required: true, message: "请重复选课社区密码" },
-          ({ getFieldValue }: { getFieldValue: Function }) => ({
-            validator(_: any, value: string) {
+          ({ getFieldValue }: { getFieldValue: (name: string) => unknown }) => ({
+            validator(_: unknown, value: string) {
               if (!value || getFieldValue("password") === value) {
                 return Promise.resolve();
               }

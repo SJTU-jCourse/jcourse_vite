@@ -1,7 +1,7 @@
 export const AccountRule = {
   max: 50,
   required: true,
-  pattern: /^([a-zA-Z0-9-_\.]+)$/,
+  pattern: /^([a-zA-Z0-9\-_.]+)$/,
   message: "请正确输入 jAccount 用户名",
 };
 

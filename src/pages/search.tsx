@@ -1,4 +1,4 @@
-import { Card, Input, message } from "antd";
+import { Card, Input, InputRef, message } from "antd";
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
 
@@ -13,7 +13,7 @@ const SearchPage = () => {
   const { pagination, onPageChange, params, setSearchParams } = usePagination();
   const { q } = params;
   const show_q = q ?? "";
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<InputRef>(null);
 
   const { courses, loading, mutate } = useSearchCourse(q, pagination);
 
@@ -21,6 +21,7 @@ const SearchPage = () => {
     inputRef.current?.focus({ cursor: "end" });
     if (show_q == "") return;
     mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSearch = (value: string) => {

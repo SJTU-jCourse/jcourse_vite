@@ -19,7 +19,7 @@ const ReviewLocationPage = () => {
         }#review-${id}`,
         { replace: true }
       );
-  }, [data]);
+  }, [data, id, navigate]);
 
   return (
     <>

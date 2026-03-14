@@ -12,7 +12,7 @@ const EmailLoginForm = ({
 }) => {
   const [form] = Form.useForm();
   const [time, setTime] = useState<number>(0);
-  const timeRef = useRef<any>(null);
+  const timeRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const inCounter = time != 0;
 
   const onClick = () => {
@@ -40,7 +40,7 @@ const EmailLoginForm = ({
     return () => {
       clearTimeout(timeRef.current);
     };
-  }, [time]);
+  }, [time, inCounter]);
   return (
     <Form
       form={form}

@@ -25,7 +25,7 @@ const ReviewItem = ({
         type: "success",
         content: "已复制点评链接到剪贴板",
       });
-    } catch (err) {
+    } catch {
       messageApi.open({
         type: "error",
         content: "复制点评链接失败",
