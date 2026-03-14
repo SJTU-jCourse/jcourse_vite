@@ -1,12 +1,12 @@
 import { Card, Col, Radio, Row } from "antd";
 import { Helmet } from "react-helmet-async";
-import { useSearchParams } from "react-router-dom";
 
 import CourseFilterCard from "@/components/course-filter-card";
 import CourseList from "@/components/course-list";
 import PageHeader from "@/components/page-header";
 import Config from "@/lib/config";
-import { CoursesFilterParams, Pagination } from "@/lib/models";
+import { usePagination } from "@/lib/hooks";
+import { CoursesFilterParams } from "@/lib/models";
 import { useCourseFilters, useCourseList } from "@/services/course";
 
 enum OrderBy {
@@ -20,16 +20,10 @@ type CoursesParams = {
 } & CoursesFilterParams;
 
 const CourseListPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const { pagination, onPageChange, params, setSearchParams } = usePagination();
+  const { categories, departments, onlyhasreviews } = params as CoursesParams;
 
-  const params: CoursesParams = Object.fromEntries([...searchParams]);
-  const { page, size, categories, departments, onlyhasreviews } = params;
-  const pagination: Pagination = {
-    page: page ? parseInt(page) : 1,
-    pageSize: size ? parseInt(size) : Config.PAGE_SIZE,
-  };
-
-  const { courses, loading: courseLoading } = useCourseList(params, pagination);
+  const { courses, loading: courseLoading } = useCourseList(params as CoursesParams, pagination);
   const { filters, loading: filterLoading } = useCourseFilters();
 
   const onFilterButtonClick = (
@@ -38,21 +32,13 @@ const CourseListPage = () => {
     departments: number[]
   ) => {
     const new_params: CoursesParams = {
-      page: (1).toString(),
+      page: "1",
       size: Config.PAGE_SIZE.toString(),
     };
     if (categories.length > 0) new_params.categories = categories.join(",");
     if (departments.length > 0) new_params.departments = departments.join(",");
     if (onlyHasReviews) new_params.onlyhasreviews = OrderBy.Avg;
     setSearchParams(new_params);
-  };
-
-  const onPageChange = (page: number, pageSize: number) => {
-    setSearchParams({
-      ...params,
-      page: page.toString(),
-      size: pageSize.toString(),
-    });
   };
 
   const onOrderByClick = (e: any) => {

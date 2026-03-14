@@ -1,28 +1,16 @@
 import { EditOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import { Helmet } from "react-helmet-async";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import PageHeader from "@/components/page-header";
 import ReviewList from "@/components/review-list";
-import Config from "@/lib/config";
-import { Pagination } from "@/lib/models";
+import { usePagination } from "@/lib/hooks";
 import { useReviews } from "@/services/review";
 
 const LatestReviewPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const { page, size } = Object.fromEntries([...searchParams]);
-  const pagination: Pagination = {
-    page: page ? parseInt(page as string) : 1,
-    pageSize: size ? parseInt(size as string) : Config.PAGE_SIZE,
-  };
-
+  const { pagination, onPageChange } = usePagination();
   const { reviews, loading } = useReviews(pagination);
-
-  const onPageChange = (page: number, pageSize: number) => {
-    setSearchParams({ page: page.toString(), size: pageSize.toString() });
-  };
   return (
     <>
       <PageHeader

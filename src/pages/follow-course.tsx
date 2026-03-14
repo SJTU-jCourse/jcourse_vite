@@ -1,31 +1,18 @@
 import { Card } from "antd";
 import { Helmet } from "react-helmet-async";
-import { useSearchParams } from "react-router-dom";
 
 import CourseList from "@/components/course-list";
 import PageHeader from "@/components/page-header";
-import Config from "@/lib/config";
-import { NotificationLevel, Pagination } from "@/lib/models";
+import { usePagination } from "@/lib/hooks";
+import { NotificationLevel } from "@/lib/models";
 import { useFollowingCourseList } from "@/services/course";
 
 const FollowCoursePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const { page, size } = Object.fromEntries([...searchParams]);
-
-  const pagination: Pagination = {
-    page: page ? parseInt(page as string) : 1,
-    pageSize: size ? parseInt(size as string) : Config.PAGE_SIZE,
-  };
-
+  const { pagination, onPageChange } = usePagination();
   const { courses, loading } = useFollowingCourseList(
     NotificationLevel.FOLLOW,
     pagination
   );
-
-  const onPageChange = (page: number, pageSize: number) => {
-    setSearchParams({ page: page.toString(), size: pageSize.toString() });
-  };
 
   return (
     <>

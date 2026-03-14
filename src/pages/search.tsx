@@ -1,28 +1,21 @@
 import { Card, Input, message } from "antd";
 import { useEffect, useRef } from "react";
 import { Helmet } from "react-helmet-async";
-import { useSearchParams } from "react-router-dom";
 
 import CourseList from "@/components/course-list";
 import PageHeader from "@/components/page-header";
-import Config from "@/lib/config";
-import { Pagination } from "@/lib/models";
+import { usePagination } from "@/lib/hooks";
 import { useSearchCourse } from "@/services/course";
 
 const { Search } = Input;
 
 const SearchPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const { page, size, q } = Object.fromEntries([...searchParams]);
-  const show_q = q ? (q as string) : "";
-
-  const pagination: Pagination = {
-    page: page ? parseInt(page as string) : 1,
-    pageSize: size ? parseInt(size as string) : Config.PAGE_SIZE,
-  };
+  const { pagination, onPageChange, params, setSearchParams } = usePagination();
+  const { q } = params;
+  const show_q = q ?? "";
   const inputRef = useRef<any>(null);
 
-  const { courses, loading, mutate } = useSearchCourse(q as string, pagination);
+  const { courses, loading, mutate } = useSearchCourse(q, pagination);
 
   useEffect(() => {
     inputRef.current?.focus({ cursor: "end" });
@@ -36,10 +29,6 @@ const SearchPage = () => {
       return;
     }
     setSearchParams({ q: value.trim() });
-  };
-
-  const onPageChange = (page: number, pageSize: number) => {
-    setSearchParams({ q, page: page.toString(), size: pageSize.toString() });
   };
 
   return (

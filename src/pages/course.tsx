@@ -14,7 +14,7 @@ import {
 } from "antd";
 import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import CourseDetailCard from "@/components/course-detail-card";
 import PageHeader from "@/components/page-header";
@@ -22,46 +22,31 @@ import RelatedCard from "@/components/related-card";
 import ReviewFilter from "@/components/review-filter";
 import ReviewList from "@/components/review-list";
 import ReviewRatingTrend from "@/components/review-rating-trend";
-import Config from "@/lib/config";
 import { CommonInfoContext } from "@/lib/context";
-import { Pagination, ReviewFilterValue } from "@/lib/models";
+import { usePagination } from "@/lib/hooks";
+import { ReviewFilterValue } from "@/lib/models";
 import { useCourseDetail } from "@/services/course";
 import { useReviewFilters, useReviewsOfCourse } from "@/services/review";
 
 const { useBreakpoint } = Grid;
 
 type CourseDetailParams = {
-  id?: string;
-  page?: string;
-  size?: string;
   order?: string;
   semester?: string;
   rating?: string;
 };
 
 const CoursePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const params: CourseDetailParams = Object.fromEntries([...searchParams]);
-  const { page, size, order, semester, rating } = params;
-  let { id } = useParams();
-  const pagination: Pagination = {
-    page: page ? parseInt(page as string) : 1,
-    pageSize: size ? parseInt(size as string) : Config.PAGE_SIZE,
-  };
+  const { pagination, onPageChange, params, setSearchParams } = usePagination();
+  const { order, semester, rating } = params as CourseDetailParams;
+  const { id } = useParams();
 
   const filterValue: ReviewFilterValue = {
-    order: order ? parseInt(order as string) : 0,
-    semester: semester ? parseInt(semester as string) : 0,
-    rating: rating ? parseInt(rating as string) : 0,
+    order: order ? parseInt(order) : 0,
+    semester: semester ? parseInt(semester) : 0,
+    rating: rating ? parseInt(rating) : 0,
   };
 
-  const onPageChange = (page: number, pageSize: number) => {
-    setSearchParams({
-      page: page.toString(),
-      size: pageSize.toString(),
-    });
-  };
   const screens = useBreakpoint();
 
   const { course, loading: courseLoading } = useCourseDetail(id as string);
@@ -81,10 +66,7 @@ const CoursePage = () => {
   const { filters } = useReviewFilters(id as string);
 
   const onFilterClick = (value: ReviewFilterValue) => {
-    const newParams: CourseDetailParams = {
-      page: (1).toString(),
-      size: Config.PAGE_SIZE.toString(),
-    };
+    const newParams: Record<string, string> = { page: "1" };
     if (value.order) newParams.order = value.order.toString();
     if (value.semester) newParams.semester = value.semester.toString();
     if (value.rating) newParams.rating = value.rating.toString();

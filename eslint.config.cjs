@@ -10,7 +10,7 @@ const {
 } = require("@eslint/compat");
 
 const tsParser = require("@typescript-eslint/parser");
-const reactRefresh = require("eslint-plugin-react-refresh");
+const reactRefresh = require("eslint-plugin-react-refresh").default;
 const js = require("@eslint/js");
 
 const {
@@ -47,4 +47,4 @@ module.exports = defineConfig([{
             allowConstantExport: true,
         }],
     },
-}, globalIgnores(["**/dist", "**/.eslintrc.cjs"])]);
+}, globalIgnores(["**/dist", "**/.eslintrc.cjs", "eslint.config.cjs"])]);
