@@ -1,4 +1,4 @@
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";
 import { URL, fileURLToPath } from "url";
 import { defineConfig } from "vite";
 
@@ -13,6 +13,9 @@ export default defineConfig({
         replacement: fileURLToPath(new URL("./src", import.meta.url)),
       },
     ],
+  },
+  build: {
+    chunkSizeWarningLimit: 2000,
   },
   server: {
     proxy: {
