@@ -6,6 +6,7 @@ import {
   Input,
   Rate,
   Select,
+  Space,
   Spin,
   Tag,
   Typography,
@@ -28,6 +29,33 @@ const { Text } = Typography;
 const ReviewTemplate: string =
   "课程内容：\n\n上课自由度：\n\n考核标准：\n\n授课质量：";
 
+const REVIEW_TEMPLATE_TAGS = [
+  { label: "课程内容", value: "课程内容：" },
+  { label: "上课自由度", value: "上课自由度：" },
+  { label: "考核标准", value: "考核标准：" },
+  { label: "授课质量", value: "授课质量：" },
+];
+
+const commentValidator = (_: unknown, value: string) => {
+  if (!value) return Promise.reject();
+
+  // 删除所有模板行
+  const templateLines = REVIEW_TEMPLATE_TAGS.map((t) => t.value.trim());
+  const lines = value.split("\n");
+  const filteredLines = lines.filter(
+    (line: string) => !templateLines.includes(line.trim())
+  );
+
+  // 清理空白符号后判断是否为空
+  const contentWithoutTemplate = filteredLines
+    .join("")
+    .replace(/\s+/g, "");
+
+  return contentWithoutTemplate !== ""
+    ? Promise.resolve()
+    : Promise.reject();
+};
+
 const WriteReviewPage = () => {
   const { user } = useUser();
   const { commonInfo } = useCommonInfo();
@@ -40,6 +68,10 @@ const WriteReviewPage = () => {
   const [courses, setCourses] = useState<CourseInReview[]>([]);
   const [nextPage, setNextPage] = useState<string | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
+  // 默认选中所有 tag
+  const [selectedTags, setSelectedTags] = useState<Set<string>>(
+    new Set(REVIEW_TEMPLATE_TAGS.map((t) => t.label))
+  );
 
   const semestersInSelect =
     enrollSemester != 0 ? commonInfo.semesters : commonInfo.available_semesters;
@@ -168,6 +200,31 @@ const WriteReviewPage = () => {
     }
   };
 
+  const handleTagClick = (tagValue: string, tagKey: string) => {
+    const currentValue = form.getFieldValue("comment") || "";
+    const lines = currentValue.split("\n");
+    const tagLineIndex = lines.findIndex((line: string) => line.trim() === tagValue.trim());
+
+    let newValue: string;
+    const newSelectedTags = new Set(selectedTags);
+
+    if (tagLineIndex !== -1) {
+      // 找到了这一行，删除它
+      lines.splice(tagLineIndex, 1);
+      newValue = lines.join("\n");
+      newSelectedTags.delete(tagKey);
+    } else {
+      // 没找到，添加
+      newValue = currentValue.trim()
+        ? currentValue.trim() + "\n\n" + tagValue
+        : tagValue;
+      newSelectedTags.add(tagKey);
+    }
+
+    form.setFieldValue("comment", newValue);
+    setSelectedTags(newSelectedTags);
+  };
+
   return (
     <>
       <PageHeader title="写点评" onBack={() => history.back()}></PageHeader>
@@ -258,16 +315,28 @@ const WriteReviewPage = () => {
           </Form.Item>
           <Form.Item
             name="comment"
-            label="详细点评"
+            label={
+              <div>
+                <div>详细点评</div>
+                <Space wrap style={{ marginTop: 4 }}>
+                  <Text type="secondary">点击模板标签：</Text>
+                  {REVIEW_TEMPLATE_TAGS.map((tag) => (
+                    <Tag
+                      key={tag.label}
+                      onClick={() => handleTagClick(tag.value, tag.label)}
+                      style={{ cursor: "pointer" }}
+                      color={selectedTags.has(tag.label) ? "blue" : "default"}
+                    >
+                      {tag.label}
+                    </Tag>
+                  ))}
+                </Space>
+              </div>
+            }
             rules={[
               {
                 required: true,
-                validator: (_: unknown, value: string) => {
-                  const trimed = value.trim();
-                  return trimed != "" && trimed != ReviewTemplate
-                    ? Promise.resolve()
-                    : Promise.reject();
-                },
+                validator: commentValidator,
               },
             ]}
             initialValue={ReviewTemplate}
